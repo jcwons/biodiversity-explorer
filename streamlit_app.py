@@ -123,7 +123,7 @@ content_container = st.container()
 st.info("Clearing area of interest... please wait.")
 # Clear previous content
 content_container.empty()
-if show_map:
+if st.session_state.show_map:
     with content_container:
         st.title("🌱 EcoMetrics: Biodiversity in Your Area")
         
