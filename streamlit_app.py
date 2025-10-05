@@ -89,47 +89,19 @@ def set_region(region):
 
 
 # --- Legend helper function ---
-from folium import IFrame
-import branca
-
-def add_legend(map_object, legend_dict, title="Legend"):
+def show_legend(legend_dict, title="Legend"):
     """
-    Adds a floating legend to a folium map that works in Streamlit.
+    Display a legend outside of the map in Streamlit.
     """
-    # Build the HTML content for the legend
-    legend_html = f"""
-    <div style="
-        position: fixed;
-        bottom: 50px;
-        left: 50px;
-        width: 160px;
-        z-index:9999;
-        font-size:14px;
-        background-color: white;
-        padding: 10px;
-        border:2px solid grey;
-        box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-    ">
-    <b>{title}</b><br>
-    """
+    html = f"<b>{title}</b><br>"
     for name, color in legend_dict.items():
-        legend_html += f"""
+        html += f"""
         <div style="display:flex; align-items:center; margin-bottom:2px;">
-            <div style="background:{color};width:15px;height:15px;margin-right:5px;"></div>
+            <div style="background:{color}; width:15px; height:15px; margin-right:5px;"></div>
             <div>{name}</div>
         </div>
         """
-    legend_html += "</div>"
-
-    # Add legend to map as a FloatImage
-    iframe = branca.element.IFrame(html=legend_html, width=170, height=25+25*len(legend_dict))
-    popup = folium.Popup(iframe, max_width=2650)
-    # Use a Marker to "float" it off the map
-    folium.Marker(
-        location=[0,0],
-        icon=folium.DivIcon(html=legend_html)
-    ).add_to(map_object)
-
+    st.markdown(html, unsafe_allow_html=True)
 
 # -------------------------------
 # For Debugging
@@ -271,14 +243,13 @@ else:
             # Add EE layers
             m.addLayer(worldcover_clipped, worldcover_vis, "WorldCover")
             m.addLayer(ndvi_clipped, ndvi_vis, "NDVI")
-            add_legend(m, worldcover_legend, title="Landcover Classes")
             #m.add_legend(title="WorldCover Class", legend_dict=worldcover_legend)
             folium.LayerControl().add_to(m)
 
 
             # Show interactive map
             m.to_streamlit(height=500)
-            
+            show_legend(worldcover_legend, title="Landcover Classes")
             # --- Placeholders ---
             text_placeholder = st.empty()
             text_placeholder.image("thinking.gif")
