@@ -73,7 +73,7 @@ def reset_aoi():
     content_container.empty()
     st.session_state.geojson_input = None
     st.session_state.show_map = True
-    st.experimental_rerun()
+    st.rerun()
     
     # No need to call st.rerun() — Streamlit reruns automatically after callback
 
