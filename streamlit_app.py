@@ -89,24 +89,46 @@ def set_region(region):
 
 
 # --- Legend helper function ---
-def add_legend(map_object, legend_dict, title="Legend"):
-    legend_html = """
-    <div style="position: fixed; 
-                bottom: 50px; left: 50px; width: 150px; height: auto; 
-                z-index:9999; font-size:14px;
-                background-color: white; padding: 10px; border:2px solid grey;">
-    <b>{}</b><br>
-    """.format(title)
+from folium import IFrame
+import branca
 
+def add_legend(map_object, legend_dict, title="Legend"):
+    """
+    Adds a floating legend to a folium map that works in Streamlit.
+    """
+    # Build the HTML content for the legend
+    legend_html = f"""
+    <div style="
+        position: fixed;
+        bottom: 50px;
+        left: 50px;
+        width: 160px;
+        z-index:9999;
+        font-size:14px;
+        background-color: white;
+        padding: 10px;
+        border:2px solid grey;
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    ">
+    <b>{title}</b><br>
+    """
     for name, color in legend_dict.items():
-        legend_html += f'<i style="background:{color};width:15px;height:15px;float:left;margin-right:5px;"></i>{name}<br>'
-    
+        legend_html += f"""
+        <div style="display:flex; align-items:center; margin-bottom:2px;">
+            <div style="background:{color};width:15px;height:15px;margin-right:5px;"></div>
+            <div>{name}</div>
+        </div>
+        """
     legend_html += "</div>"
 
-    template = Template(legend_html)
-    macro = MacroElement()
-    macro._template = template
-    map_object.get_root().add_child(macro)
+    # Add legend to map as a FloatImage
+    iframe = branca.element.IFrame(html=legend_html, width=170, height=25+25*len(legend_dict))
+    popup = folium.Popup(iframe, max_width=2650)
+    # Use a Marker to "float" it off the map
+    folium.Marker(
+        location=[0,0],
+        icon=folium.DivIcon(html=legend_html)
+    ).add_to(map_object)
 
 
 # -------------------------------
@@ -181,6 +203,7 @@ else:
         try:
             aoi_ee = geojson_to_ee(geojson_input)
             st.sidebar.success("✅ AOI successfully parsed!")
+            st.sidebar.warning("If you are on mobile you need to scroll up to close sidebar and scroll up.")
             area_km2 = aoi_ee.area().divide(1e6).getInfo()
             MAX_AOI_KM2 = 500
             if area_km2>MAX_AOI_KM2:
@@ -248,6 +271,7 @@ else:
             # Add EE layers
             m.addLayer(worldcover_clipped, worldcover_vis, "WorldCover")
             m.addLayer(ndvi_clipped, ndvi_vis, "NDVI")
+            add_legend(m, worldcover_legend, title="Landcover Classes")
             #m.add_legend(title="WorldCover Class", legend_dict=worldcover_legend)
             folium.LayerControl().add_to(m)
 
