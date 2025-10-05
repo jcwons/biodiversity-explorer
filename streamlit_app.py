@@ -117,7 +117,8 @@ def show_legend(legend_dict, title="Legend", font_size="12px", line_height="1.2"
 # -------------------------------
 # For Debugging
 # -------------------------------
-#st.write("DEBUG session_state:", dict(st.session_state))
+
+st.write("DEBUG session_state:", dict(st.session_state))
 
 # -------------------------------
 # Session state setup
@@ -182,7 +183,6 @@ else:
         geojson_input = st.session_state["geojson_input"]
         geojson_input = json.dumps(geojson_input)
 
-        st.info(geojson_input)
         # The variable now holds your AOI GeoJSON object
         st.sidebar.title("Analysis")
         
