@@ -7,7 +7,7 @@ import ee
 
 # --- Load GEE secrets ---
 service_account = st.secrets["gee"]["service_account"]
-key_json_str = st.secrets["gee"]["key_json_str"]
+key_json_str = st.secrets["gee"]["key_json"]
 
 # Write the JSON string to a temporary file
 temp_path = None
