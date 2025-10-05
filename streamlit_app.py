@@ -73,12 +73,8 @@ def reset_aoi():
     content_container.empty()
     st.session_state.geojson_input = None
     st.session_state.show_map = True
+    st.session_state.clearing = True
     st.rerun()
-
-def rerun_clear():
-    content_container.empty()
-    st.rerun()
-    # No need to call st.rerun() — Streamlit reruns automatically after callback
 
 def set_region(region):
     """Update map center and zoom when a region button is clicked"""
