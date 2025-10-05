@@ -244,8 +244,11 @@ else:
 
 
             # Show interactive map
-            m.to_streamlit(height=500)
-            show_legend(worldcover_legend, title="Landcover Classes")
+            map_col, leg_col = st.columns([4,1])
+            with map_col:
+                m.to_streamlit(height=500)
+            with leg_col:
+                show_legend(worldcover_legend, title="Landcover Classes")
             # --- Placeholders ---
             text_placeholder = st.empty()
             text_placeholder.image("thinking.gif")
