@@ -4,8 +4,9 @@ import numpy as np
 
 
 # Initialize Earth Engine once
-key_file = "C:\\Users\\juliu\\Desktop\\Coding\\APIs\\biodiversity-streamlit-app-0aef60ac2dd3.json"
-service_account = "gee-access@biodiversity-streamlit-app.iam.gserviceaccount.com"
+# Get service account and key JSON from secrets
+service_account = st.secrets["gee"]["service_account"]
+key_json_str = st.secrets["gee"]["key_json"]
 
 credentials = ee.ServiceAccountCredentials(service_account, key_file)
 ee.Initialize(credentials)
