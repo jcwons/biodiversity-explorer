@@ -74,7 +74,10 @@ def reset_aoi():
     st.session_state.geojson_input = None
     st.session_state.show_map = True
     st.rerun()
-    
+
+def rerun_clear():
+    content_container.empty()
+    st.rerun()
     # No need to call st.rerun() — Streamlit reruns automatically after callback
 
 def set_region(region):
@@ -177,8 +180,7 @@ with content_container:
             # Store as JSON string
             st.session_state.geojson_input = json.dumps(geojson_input)
             st.session_state.show_map = False  # hide map after drawing
-            content_container.empty()
-            st.rerun()
+            rerun_clear()
     
     else:
         # Everything cleared; no UI visible
