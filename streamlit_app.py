@@ -279,7 +279,7 @@ else:
                 st.dataframe(df,
                             column_order=("Landcover", "Area"),
                             hide_index=True,
-                            width=None,
+                            width=500,
                             column_config={
                                 "Landcover": st.column_config.TextColumn(
                                     "Landcover",
