@@ -123,65 +123,66 @@ content_container = st.container()
 st.info("Clearing area of interest... please wait.")
 # Clear previous content
 content_container.empty()
-with content_container:
-    st.title("🌱 EcoMetrics: Biodiversity in Your Area")
+if show_map:
+    with content_container:
+        st.title("🌱 EcoMetrics: Biodiversity in Your Area")
+        
+        # Title (only shown until AOI is drawn)
+        # --- Region buttons ---
+        st.markdown("### 🌍 Choose region to start")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            if st.button("Europe"): set_region("Europe")
+            if st.button("Africa"): set_region("Africa")
+        with col2:
+            if st.button("Asia"): set_region("Asia")
+            if st.button("APAC"): set_region("APAC")
+        with col3:
+            if st.button("South America"): set_region("South America")
+            if st.button("North America"): set_region("North America")
     
-    # Title (only shown until AOI is drawn)
-    # --- Region buttons ---
-    st.markdown("### 🌍 Choose region to start")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button("Europe"): set_region("Europe")
-        if st.button("Africa"): set_region("Africa")
-    with col2:
-        if st.button("Asia"): set_region("Asia")
-        if st.button("APAC"): set_region("APAC")
-    with col3:
-        if st.button("South America"): set_region("South America")
-        if st.button("North America"): set_region("North America")
-
-    st.markdown("---")
-
-    st.markdown("""
-                ### 🗺️ Select your Area of Interest
-                1. **Zoom in** to your region of interest.  
-                2. **Click the square icon ⬛** on the left toolbar to draw a rectangle.  
-                3. **Draw** your area on the map.  
+        st.markdown("---")
     
-                
-                ℹ️ Note that this is a demo so keep the area to a reasonable size or else...
-                
-                ⚠️ Scroll up on mobile to see results after drawing rectangle.
-                """
-               )
-
-    # --- Map creation ---
-    m = folium.Map(location=st.session_state.map_center,
-                   zoom_start=st.session_state.map_zoom)
-    Draw(export=False).add_to(m)
-
-    output = st_folium(m, width=700, height=500)
-
-    if output and "all_drawings" in output and output["all_drawings"]:
-        shape = output["all_drawings"][0]
-        coords = shape["geometry"]["coordinates"][0]
-
-        polygon = Polygon(coords)
-        geojson_input = {
-            "type": "FeatureCollection",
-            "features": [{
-                "type": "Feature",
-                "geometry": mapping(polygon),
-                "properties": {}
-            }]
-        }
-
-        # Store as JSON string
-        st.session_state.geojson_input = json.dumps(geojson_input)
-        st.session_state.show_map = False  # hide map after drawing
-        #rerun_clear()
-
-content_container.empty()
+        st.markdown("""
+                    ### 🗺️ Select your Area of Interest
+                    1. **Zoom in** to your region of interest.  
+                    2. **Click the square icon ⬛** on the left toolbar to draw a rectangle.  
+                    3. **Draw** your area on the map.  
+        
+                    
+                    ℹ️ Note that this is a demo so keep the area to a reasonable size or else...
+                    
+                    ⚠️ Scroll up on mobile to see results after drawing rectangle.
+                    """
+                   )
+    
+        # --- Map creation ---
+        m = folium.Map(location=st.session_state.map_center,
+                       zoom_start=st.session_state.map_zoom)
+        Draw(export=False).add_to(m)
+    
+        output = st_folium(m, width=700, height=500)
+    
+        if output and "all_drawings" in output and output["all_drawings"]:
+            shape = output["all_drawings"][0]
+            coords = shape["geometry"]["coordinates"][0]
+    
+            polygon = Polygon(coords)
+            geojson_input = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": mapping(polygon),
+                    "properties": {}
+                }]
+            }
+    
+            # Store as JSON string
+            st.session_state.geojson_input = json.dumps(geojson_input)
+            st.session_state.show_map = False  # hide map after drawing
+            #rerun_clear()
+else:    
+    content_container.empty()
 
 # Everything cleared; no UI visible
 geojson_input = st.session_state["geojson_input"]
