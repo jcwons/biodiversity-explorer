@@ -1,7 +1,6 @@
 import requests
 from collections import Counter
 from datetime import date, timedelta
-from tqdm import tqdm  # progress bar
 import math
 
 def get_wkt_from_aoi_ee(aoi_ee):
@@ -22,16 +21,14 @@ def get_wkt_from_aoi_ee(aoi_ee):
 def get_gbif_sample(aoi_ee, n_records=10000):
     """
     Fetch a sample of GBIF occurrences within the AOI (polygon WKT) up to n_records.
-    Displays a progress bar while fetching.
     """
     geometry_wkt = get_wkt_from_aoi_ee(aoi_ee)
     per_page = 300
     pages = n_records // per_page + 1
     occurrences = []
-    # end date is today
+
     # Today's date
     end_date = date.today()
-
     # One year ago
     start_date = end_date - timedelta(days=365)
 
@@ -39,7 +36,7 @@ def get_gbif_sample(aoi_ee, n_records=10000):
     end_date_str = end_date.isoformat()
     start_date_str = start_date.isoformat()
 
-    for i in tqdm(range(pages), desc="Fetching GBIF data"):
+    for i in range(pages):
         offset = i * per_page
         url = "https://api.gbif.org/v1/occurrence/search"
         params = {
