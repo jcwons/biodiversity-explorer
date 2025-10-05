@@ -261,7 +261,7 @@ else:
             with map_col:
                 m.to_streamlit(height=500)
             with leg_col:
-                show_legend(worldcover_legend, title="Landcover Classes", font_size="10px", line_height="0.7)
+                show_legend(worldcover_legend, title="Landcover Classes", font_size="10px", line_height="0.7")
             # --- Placeholders ---
             text_placeholder = st.empty()
             text_placeholder.image("thinking.gif")
