@@ -70,10 +70,11 @@ def geojson_to_ee(geojson_str: str):
         raise ValueError(f"Error processing GeoJSON: {e}")
 
 def reset_aoi():
+    content_container.empty()
     st.session_state.geojson_input = None
     st.session_state.show_map = True
-    content_container.empty()
-
+    st.experimental_rerun()
+    
     # No need to call st.rerun() — Streamlit reruns automatically after callback
 
 def set_region(region):
