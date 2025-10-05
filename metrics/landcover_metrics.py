@@ -1,5 +1,13 @@
 import ee
 import numpy as np
+#import streamlit as st
+
+
+# Initialize Earth Engine once
+#service_account = st.secrets["gee"]["service_account"]
+#key_json_str = st.secrets["gee"]["key_json"]
+#credentials = ee.ServiceAccountCredentials(service_account, key_file)
+#ee.Initialize(credentials)
 
 # Landcover class legend
 def get_landcover_legend():
@@ -16,6 +24,20 @@ def get_landcover_legend():
         95: "Mangroves",
         100: "Moss and lichen"
     }
+
+landcover_classes = {
+    10: "Tree cover",
+    20: "Shrubland",
+    30: "Grassland",
+    40: "Cropland",
+    50: "Built-up",
+    60: "Sparse vegetation",
+    70: "Snow and ice",
+    80: "Permanent water",
+    90: "Herbaceous wetland",
+    95: "Mangroves",
+    100: "Moss and lichen"
+}
 
 # --------------------
 # Biodiversity Indices
@@ -51,7 +73,6 @@ def get_anthropogenic_habitat_fraction(counts: dict):
     return anthro_count / total if total > 0 else 0
 
 def get_top_5_landcover(counts: dict):
-    landcover_classes = get_landcover_legend()
     top_5 = sorted(counts.items(), key=lambda x: x[1], reverse=True)[:5]
     total = sum(counts.values())
     return [(landcover_classes[int(cls)], count, (count / total) * 100) for cls, count in top_5]
