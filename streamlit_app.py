@@ -147,8 +147,6 @@ if st.session_state.clearing:
     with content_container:
         st.info("🧹 Clearing area of interest... please wait.")
         st.empty()
-        # Force a short delay so the user sees this message
-        time.sleep(1)
         st.session_state.clearing = False
         st.rerun()
 
