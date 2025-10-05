@@ -51,6 +51,7 @@ def get_anthropogenic_habitat_fraction(counts: dict):
     return anthro_count / total if total > 0 else 0
 
 def get_top_5_landcover(counts: dict):
+    landcover_classes = get_landcover_legend()
     top_5 = sorted(counts.items(), key=lambda x: x[1], reverse=True)[:5]
     total = sum(counts.values())
     return [(landcover_classes[int(cls)], count, (count / total) * 100) for cls, count in top_5]
