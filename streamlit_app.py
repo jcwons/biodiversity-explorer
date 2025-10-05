@@ -7,13 +7,8 @@ import ee
 
 # --- Load GEE secrets ---
 service_account = st.secrets["gee"]["service_account"]
-key_json_b64 = st.secrets["gee"]["key_json_b64"]
+key_json_str = st.secrets["gee"]["key_json_str"]
 
-# Decode base64 JSON key
-key_json_str = base64.b64decode(key_json_b64).decode("utf-8")
-
-# Write temporary file and create credentials
-temp_path = None
 # Write the JSON string to a temporary file
 temp_path = None
 try:
