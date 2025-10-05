@@ -258,7 +258,7 @@ else:
             # Show interactive map
             map_col, leg_col = st.columns([4,1])
             with map_col:
-                m.to_streamlit(height=700)
+                m.to_streamlit(height=600)
             with leg_col:
                 show_legend(worldcover_legend, title="Landcover Classes", font_size="10px", line_height="1.2")
             # --- Placeholders ---
