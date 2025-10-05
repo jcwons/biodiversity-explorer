@@ -1,16 +1,6 @@
 import ee
 import numpy as np
 
-
-
-# Initialize Earth Engine once
-# Get service account and key JSON from secrets
-service_account = st.secrets["gee"]["service_account"]
-key_json_str = st.secrets["gee"]["key_json"]
-
-credentials = ee.ServiceAccountCredentials(service_account, key_file)
-ee.Initialize(credentials)
-
 # Landcover class legend
 def get_landcover_legend():
     return {
