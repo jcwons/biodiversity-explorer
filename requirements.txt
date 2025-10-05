@@ -1,6 +1,5 @@
 streamlit
 earthengine-api
-json
 folium
 pandas
 streamlit_folium
