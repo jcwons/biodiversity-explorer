@@ -180,6 +180,8 @@ else:
     with content_container:
         # Everything cleared; no UI visible
         geojson_input = st.session_state["geojson_input"]
+        geojson_input = json.dumps(geojson_input)
+
         st.info(geojson_input)
         # The variable now holds your AOI GeoJSON object
         st.sidebar.title("Analysis")
