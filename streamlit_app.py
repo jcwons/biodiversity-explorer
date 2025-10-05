@@ -18,7 +18,6 @@ try:
     credentials = ee.ServiceAccountCredentials(service_account, temp_path)
     # Initialize EE safely
     init_ee(credentials)
-    st.write("✅ Google Earth Engine initialized.")
 
 finally:
     if temp_path and os.path.exists(temp_path):
@@ -178,7 +177,7 @@ else:
     # The variable now holds your AOI GeoJSON object
     st.sidebar.title("Analysis")
 
-    if st.sidebar.button("Run Analysis"):
+    if geojson_input.strip():
         try:
             aoi_ee = geojson_to_ee(geojson_input)
             st.sidebar.success("✅ AOI successfully parsed!")
