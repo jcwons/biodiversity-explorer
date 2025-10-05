@@ -90,20 +90,13 @@ def set_region(region):
 
 # --- Legend helper function ---
 def show_legend(legend_dict, title="Legend"):
-    """
-    Display a legend outside of the map in Streamlit.
-    """
-    html = f"<div><b>{title}</b><br>"
+    st.markdown(f"**{title}**")
     for name, color in legend_dict.items():
-        html += f"""
-        <div style="display:flex; align-items:center; margin-bottom:2px;">
-            <div style="background:{color}; width:15px; height:15px; margin-right:5px;"></div>
-            <span>{name}</span>
-        </div>
-        """
-    html += "</div>"
+        st.markdown(
+            f'<span style="display:inline-block; width:15px; height:15px; background:{color}; margin-right:5px;"></span>{name}',
+            unsafe_allow_html=True
+        )
 
-    st.markdown(html, unsafe_allow_html=True)
 
 
 # -------------------------------
