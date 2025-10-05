@@ -1,28 +1,33 @@
 import streamlit as st
-import ee
 import json
 import tempfile
 import os
+from metrics.gee_utils import init_ee, is_ee_initialized
+import ee
 
-# --- Initialize Earth Engine ---
+# --- Load GEE secrets ---
 service_account = st.secrets["gee"]["service_account"]
-key_json_str = st.secrets["gee"]["key_json"]
+key_json_b64 = st.secrets["gee"]["key_json_b64"]
 
+# Decode base64 JSON key
+key_json_str = base64.b64decode(key_json_b64).decode("utf-8")
+
+# Write temporary file and create credentials
+temp_path = None
 # Write the JSON string to a temporary file
 temp_path = None
 try:
     with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         f.write(key_json_str)
         temp_path = f.name  # save the path
-
-    # Initialize Earth Engine using the temporary file
-    credentials = ee.ServiceAccountCredentials(service_account, temp_path)
-    ee.Initialize(credentials)
+    # Initialize EE safely
+    init_ee(credentials)
+    st.write("✅ Google Earth Engine initialized.")
 
 finally:
-    # Remove the temporary file manually
     if temp_path and os.path.exists(temp_path):
         os.remove(temp_path)
+        
 
 import folium
 import pandas as pd
