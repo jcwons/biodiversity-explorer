@@ -1,6 +1,29 @@
 import streamlit as st
 import ee
 import json
+import tempfile
+import os
+
+# --- Initialize Earth Engine ---
+service_account = st.secrets["gee"]["service_account"]
+key_json_str = st.secrets["gee"]["key_json"]
+
+# Write the JSON string to a temporary file
+temp_path = None
+try:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
+        f.write(key_json_str)
+        temp_path = f.name  # save the path
+
+    # Initialize Earth Engine using the temporary file
+    credentials = ee.ServiceAccountCredentials(service_account, temp_path)
+    ee.Initialize(credentials)
+
+finally:
+    # Remove the temporary file manually
+    if temp_path and os.path.exists(temp_path):
+        os.remove(temp_path)
+
 import folium
 import pandas as pd
 from streamlit_folium import st_folium
@@ -15,12 +38,7 @@ from folium.plugins import Draw
 from streamlit_folium import st_folium
 from shapely.geometry import Polygon, mapping
 
-# --- Initialize Earth Engine ---
-# Get service account and key JSON from secrets
-service_account = st.secrets["gee"]["service_account"]
-key_json_str = st.secrets["gee"]["key_json"]
-credentials = ee.ServiceAccountCredentials(service_account, key_file)
-ee.Initialize(credentials)
+
 
 # -------------------------------
 # Session state initialization
