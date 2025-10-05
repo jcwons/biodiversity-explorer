@@ -335,7 +335,7 @@ else:
                 st.dataframe(df,
                             column_order=("metric", "value"),
                             hide_index=True,
-                            width=None,
+                            width=500,
                             column_config={
                                 "metric": st.column_config.TextColumn(
                                     "Metric",
