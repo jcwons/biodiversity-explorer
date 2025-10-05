@@ -89,11 +89,21 @@ def set_region(region):
 
 
 # --- Legend helper function ---
-def show_legend(legend_dict, title="Legend"):
-    st.markdown(f"**{title}**")
+def show_legend(legend_dict, title="Legend", font_size="12px", line_height="1.2"):
+    """
+    Display a legend outside of the map in Streamlit with customizable font size and line spacing.
+    
+    Args:
+        legend_dict (dict): {label: color}
+        title (str): Legend title
+        font_size (str): CSS font-size (e.g., "12px", "0.8em")
+        line_height (str): CSS line-height (e.g., "1", "1.2")
+    """
+    st.markdown(f'<b style="font-size:{font_size}; line-height:{line_height};">{title}</b>', unsafe_allow_html=True)
     for name, color in legend_dict.items():
         st.markdown(
-            f'<span style="display:inline-block; width:15px; height:15px; background:{color}; margin-right:5px;"></span>{name}',
+            f'<span style="display:inline-block; width:15px; height:15px; background:{color}; margin-right:5px; vertical-align:middle;"></span>'
+            f'<span style="font-size:{font_size}; line-height:{line_height};">{name}</span>',
             unsafe_allow_html=True
         )
 
@@ -132,7 +142,10 @@ if st.session_state.show_map:
     
                 
                 ℹ️ Note that this is a demo so keep the area to a reasonable size or else...
-                """)
+                
+                ⚠️ Scroll up on mobile to see results after drawing rectangle.
+                """
+               )
 
     # --- Map creation ---
     m = folium.Map(location=st.session_state.map_center,
@@ -248,7 +261,7 @@ else:
             with map_col:
                 m.to_streamlit(height=500)
             with leg_col:
-                show_legend(worldcover_legend, title="Landcover Classes")
+                show_legend(worldcover_legend, title="Landcover Classes", font_size="10px", line_height="0.7)
             # --- Placeholders ---
             text_placeholder = st.empty()
             text_placeholder.image("thinking.gif")
