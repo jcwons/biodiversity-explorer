@@ -72,7 +72,6 @@ def geojson_to_ee(geojson_str: str):
 def reset_aoi():
     st.session_state.geojson_input = None
     st.session_state.show_map = True
-    st.rerun()
     # No need to call st.rerun() — Streamlit reruns automatically after callback
 
 def set_region(region):
