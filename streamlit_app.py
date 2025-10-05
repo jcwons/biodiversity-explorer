@@ -249,7 +249,7 @@ else:
             # Add EE layers
             m.addLayer(worldcover_clipped, worldcover_vis, "WorldCover")
             m.addLayer(ndvi_clipped, ndvi_vis, "NDVI")
-            m.add_legend(title="WorldCover Class", legend_dict=worldcover_legend)
+            #m.add_legend(title="WorldCover Class", legend_dict=worldcover_legend)
             folium.LayerControl().add_to(m)
 
 
