@@ -120,7 +120,7 @@ def show_legend(legend_dict, title="Legend", font_size="12px", line_height="1.2"
 #st.write("DEBUG session_state:", dict(st.session_state))
 
 content_container = st.container()
-
+st.info("Clearing area of interest... please wait.")
 # Clear previous content
 content_container.empty()
 with content_container:
