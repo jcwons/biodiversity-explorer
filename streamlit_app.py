@@ -93,15 +93,18 @@ def show_legend(legend_dict, title="Legend"):
     """
     Display a legend outside of the map in Streamlit.
     """
-    html = f"<b>{title}</b><br>"
+    html = f"<div><b>{title}</b><br>"
     for name, color in legend_dict.items():
         html += f"""
         <div style="display:flex; align-items:center; margin-bottom:2px;">
             <div style="background:{color}; width:15px; height:15px; margin-right:5px;"></div>
-            <div>{name}</div>
+            <span>{name}</span>
         </div>
         """
+    html += "</div>"
+
     st.markdown(html, unsafe_allow_html=True)
+
 
 # -------------------------------
 # For Debugging
