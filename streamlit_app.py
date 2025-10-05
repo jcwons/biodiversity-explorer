@@ -99,7 +99,6 @@ def show_legend(legend_dict, title="Legend", font_size="12px", line_height="1.2"
         font_size (str): CSS font-size (e.g., "12px", "0.8em")
         line_height (str): CSS line-height (e.g., "1", "1.2")
     """
-    st.markdown(f'<b style="font-size:{font_size}; line-height:{line_height};">{title}</b>', unsafe_allow_html=True)
     for name, color in legend_dict.items():
         st.markdown(
             f'<span style="display:inline-block; width:15px; height:15px; background:{color}; margin-right:5px; vertical-align:middle;"></span>'
@@ -259,7 +258,7 @@ else:
             # Show interactive map
             map_col, leg_col = st.columns([4,1])
             with map_col:
-                m.to_streamlit(height=500)
+                m.to_streamlit(height=700)
             with leg_col:
                 show_legend(worldcover_legend, title="Landcover Classes", font_size="10px", line_height="1.2")
             # --- Placeholders ---
