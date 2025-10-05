@@ -177,7 +177,7 @@ elif st.session_state.show_map:
             # Trigger transition
             trigger_clear_screen()
 else:
-    with contain_container:
+    with content_container:
         # Everything cleared; no UI visible
         geojson_input = st.session_state["geojson_input"]
         
