@@ -15,6 +15,7 @@ try:
     with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         f.write(key_json_str)
         temp_path = f.name  # save the path
+    credentials = ee.ServiceAccountCredentials(service_account, temp_path)
     # Initialize EE safely
     init_ee(credentials)
     st.write("✅ Google Earth Engine initialized.")
